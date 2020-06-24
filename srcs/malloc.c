@@ -6,13 +6,39 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:34:31 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/24 07:00:29 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/24 08:38:13 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+#include <stdio.h>
 
 t_arena					*g_arena;
+
+static void				*shrink_chunk(size_t size, t_page *page)
+{
+	void				*ret;
+
+	ret = ft_memcpy(page->top, &size, sizeof(size_t));
+	page->top = ((char *)page->top) + ((char)sizeof(size_t)) + ((char)size);
+	page->top_size = page->top_size - (size + sizeof(size_t));
+	return (ret);
+}
+
+static t_page			*find_page(size_t size)
+{
+	t_page				*ret;
+
+	if (size <= TINY)
+		ret = g_arena->tiny;
+	else if (size <= SMALL)
+		ret = g_arena->small;
+	else
+		ret = g_arena->large;
+	while (ret && ret->top_size < (size + sizeof(size_t)))
+		ret = ret->next;
+	return (ret);
+}
 
 static t_page			*map_page(size_t size)
 {
@@ -47,10 +73,12 @@ static t_arena			*map_arena(void)
 void					*malloc(size_t size)
 {
 	void				*ret;
+	t_page				*page;
 
 	if (!g_arena)
 		g_arena = map_arena();
 	size = ft_roundup(size, 16);
-	ret = NULL;
+	page = find_page(size);
+	ret = shrink_chunk(size, page);
 	return (ret);
 }
