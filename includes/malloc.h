@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:05:38 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/24 05:39:44 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/24 06:47:48 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/mman.h>
 # include "libft.h"
+
+# define MAX_ALLOC 100
+
+# define TINY 16
+# define SMALL 128
 
 typedef struct			s_arena
 {
