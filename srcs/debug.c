@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/24 07:07:04 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/24 09:08:22 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,24 @@ static void				print_addr(void *ptr)
 		ft_putstr("NULL");
 }
 
+static void				print_chunk(void *chunk)
+{
+	print_addr(chunk);
+	ft_putstr(" - ");
+	print_addr(((char *)chunk) + *((size_t *)chunk) + sizeof(size_t));
+	ft_putstr(" : ");
+	ft_putnbr(*((size_t *)chunk));
+	ft_putstr(" bytes");
+	ft_putchar('\n');
+}
+
 static void				print_page(t_page *page)
 {
+	void				*chunk;
+
 	if (page)
 	{
+		chunk = ((char *)page) + sizeof(t_page);
 		ft_putstr("Page size: ");
 		ft_putnbr(page->size);
 		ft_putchar('\n');
@@ -62,6 +76,12 @@ static void				print_page(t_page *page)
 		ft_putchar('\n');
 		ft_putstr("Page next: ");
 		print_addr(page->next);
+		ft_putchar('\n');
+		while (chunk != page->top)
+		{
+			print_chunk(chunk);
+			chunk = ((char *)chunk) + (*(char *)chunk) + sizeof(size_t);
+		}
 	}
 }
 
