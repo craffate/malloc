@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:05:38 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/24 09:27:17 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/25 14:13:56 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 
 # define TINY 16
 # define SMALL 128
+
+# define FREE_MASK 0xFFFFFFFFFFFFFFF0
+
+# define RED "\x1b[31m"
+# define GREEN "\x1b[32m"
+# define EOC "\x1b[0m"
 
 typedef struct			s_arena
 {
