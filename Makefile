@@ -11,6 +11,10 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror
 LFLAGS = -shared
 
+ifneq (,$(findstring Linux,$(HOSTTYPE)))
+	CFLAGS += -fPIC
+endif
+
 INCS_PATH = includes/
 OBJS_PATH = objs/
 SRCS_PATH = srcs/
