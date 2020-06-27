@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/25 14:20:06 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/27 21:07:10 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void				print_chunk(void *chunk)
 {
 	print_addr(chunk);
 	ft_putstr(" - ");
-	print_addr(((char *)chunk) + (*((size_t *)chunk) & FREE_MASK) + sizeof(size_t));
+	print_addr(((char *)chunk) + (*((size_t *)chunk) & FREE_MASK) + (sizeof(size_t) * 2));
 	ft_putstr(" : ");
 	ft_putnbr(*((size_t *)chunk) & FREE_MASK);
 	ft_putstr(" bytes");
@@ -57,7 +57,7 @@ static void				print_page(t_page *page)
 
 	if (page)
 	{
-		chunk = ((char *)page) + sizeof(t_page);
+		chunk = ((char *)page) + (char)sizeof(t_page) + (char)sizeof(size_t);
 		ft_putstr("Page size: ");
 		ft_putnbr(page->size);
 		ft_putchar('\n');
@@ -80,7 +80,7 @@ static void				print_page(t_page *page)
 		while (chunk != page->top)
 		{
 			print_chunk(chunk);
-			chunk = ((char *)chunk) + (*(char *)chunk & FREE_MASK) + sizeof(size_t);
+			chunk = ((char *)chunk) + (*(char *)chunk & FREE_MASK) + (sizeof(size_t) * 2);
 		}
 	}
 }
