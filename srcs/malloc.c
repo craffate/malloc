@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:34:31 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/29 11:41:03 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/29 12:26:36 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_page			*map_page(size_t size)
 	t_page				*ret;
 
 	size += sizeof(size_t) * 2;
-	size *= size > SMALL ? 1 : MAX_ALLOC;
+	size *= size > (SMALL + sizeof(size_t) * 2) ? 1 : MAX_ALLOC;
 	size += sizeof(size_t);
 	size += sizeof(t_page);
 	size = ft_roundup(size, getpagesize());
