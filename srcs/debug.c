@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/29 11:49:42 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/29 12:04:45 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void				print_page(t_page *page)
 		while (chunk != page->top)
 		{
 			print_chunk(chunk);
-			chunk = ((char *)chunk) + (*(char *)chunk & FREE_MASK) + (sizeof(size_t) * 2);
+			chunk = ((char *)chunk) + (*(size_t *)chunk & FREE_MASK) + (sizeof(size_t) * 2);
 		}
 	}
 }
