@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:05:38 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/25 14:13:56 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/29 11:48:06 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # define TINY 16
 # define SMALL 128
+
+# define DEBUG_COLOR 1
 
 # define FREE_MASK 0xFFFFFFFFFFFFFFF0
 

@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/27 21:07:10 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/29 11:49:42 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void				print_addr(void *ptr)
 
 static void				print_chunk(void *chunk)
 {
+	if (*(size_t *)chunk & ~FREE_MASK && DEBUG_COLOR)
+		ft_putstr(GREEN);
 	print_addr(chunk);
 	ft_putstr(" - ");
 	print_addr(((char *)chunk) + (*((size_t *)chunk) & FREE_MASK) + (sizeof(size_t) * 2));
@@ -49,6 +51,7 @@ static void				print_chunk(void *chunk)
 	ft_putnbr(*((size_t *)chunk) & FREE_MASK);
 	ft_putstr(" bytes");
 	ft_putchar('\n');
+	ft_putstr(EOC);
 }
 
 static void				print_page(t_page *page)
@@ -92,7 +95,10 @@ static void				print_char(unsigned char c)
 
 	byte[1] = base[c % 16];
 	byte[0] = base[c / 16];
+	if (c && DEBUG_COLOR)
+		ft_putstr(RED);
 	write(1, byte, 2);
+	ft_putstr(EOC);
 }
 
 static void				dump_page(t_page *page)
