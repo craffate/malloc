@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 08:11:09 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 10:13:01 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,21 @@ static void				print_chunk(void *chunk)
 		ft_putstr(GREEN);
 	print_addr(chunk);
 	ft_putstr(" - ");
-	print_addr(((char *)chunk) + (*((size_t *)chunk) & FREE_MASK) + (sizeof(size_t) * 2));
+	print_addr(((char *)chunk) +
+	(*((size_t *)chunk) & FREE_MASK) + (sizeof(size_t) * 2));
 	ft_putstr(" : ");
 	ft_putnbr(*((size_t *)chunk) & FREE_MASK);
 	ft_putstr(" bytes");
 	ft_putchar('\n');
 	ft_putstr(EOC);
+}
+
+static void				print_range(void *p, void *p2)
+{
+	print_addr(p);
+	ft_putstr(" - ");
+	print_addr(p2);
+	ft_putchar('\n');
 }
 
 static void				print_page(t_page *page)
@@ -68,22 +77,17 @@ static void				print_page(t_page *page)
 		ft_putnbr(page->top_size);
 		ft_putchar('\n');
 		ft_putstr("Top range: ");
-		print_addr(page->top);
-		ft_putstr(" - ");
-		print_addr(((char *)page->top) + page->top_size);
-		ft_putchar('\n');
+		print_range(page->top, ((char *)page->top + page->top_size));
 		ft_putstr("Page range: ");
-		print_addr(page);
-		ft_putstr(" - ");
-		print_addr(((char *)page) + page->size);
-		ft_putchar('\n');
+		print_range(page, ((char *)page + page->size));
 		ft_putstr("Page next: ");
 		print_addr(page->next);
 		ft_putchar('\n');
 		while (chunk != page->top)
 		{
 			print_chunk(chunk);
-			chunk = ((char *)chunk) + (*(size_t *)chunk & FREE_MASK) + (sizeof(size_t) * 2);
+			chunk = ((char *)chunk) +
+			(*(size_t *)chunk & FREE_MASK) + (sizeof(size_t) * 2);
 		}
 	}
 }
@@ -91,10 +95,9 @@ static void				print_page(t_page *page)
 static void				print_char(unsigned char c)
 {
 	unsigned char		byte[2];
-	unsigned char		base[16] = "0123456789abcdef";
 
-	byte[1] = base[c % 16];
-	byte[0] = base[c / 16];
+	byte[1] = ("0123456789abcdef")[c % 16];
+	byte[0] = ("0123456789abcdef")[c / 16];
 	if ((c > 0x20 && c < 0x7F) && DEBUG_COLOR)
 		ft_putstr(RED);
 	else if (c && DEBUG_COLOR)
