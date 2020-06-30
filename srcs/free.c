@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 14:03:00 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 10:17:42 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 17:41:43 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,40 @@
 
 t_arena					*g_arena;
 
-static int				ptr_issmall(void *ptr)
+static void				coalesce_next(t_chunk *chunk)
 {
-	int					ret;
-	t_page				*small;
-
-	ret = 0;
-	small = g_arena->small;
-	while (!ret && small)
+	if (chunk->next && chunk->next->size & ~FREE_MASK)
 	{
-		if (ptr > (void *)((char *)small + sizeof(size_t) + sizeof(t_page)) &&
-		ptr < (void *)(((char *)small) + small->size))
-			ret = 1;
-		small = small->next;
+		chunk->size = chunk->size + (chunk->next->size & FREE_MASK) +
+		sizeof(t_chunk);
+		chunk->next = chunk->next->next;
 	}
-	return (ret);
 }
 
-static void				try_coalesce(size_t *ptr_head, size_t *ptr_end)
+static void				coalesce_prev(t_chunk *chunk)
 {
-	size_t				*ptr_prev_head;
-	size_t				*ptr_prev_end;
+	t_chunk				*idx;
 
-	ptr_prev_end = (size_t *)((char *)ptr_head - (char)sizeof(size_t));
-	if (*ptr_prev_end & ~FREE_MASK)
+	idx = NULL;
+	if ((chunk->size & FREE_MASK) <= TINY)
+		idx = g_arena->tiny->head;
+	else if ((chunk->size & FREE_MASK) <= SMALL)
+		idx = g_arena->small->head;
+	while (idx && idx->next != chunk)
+		idx = idx->next;
+	if (idx && idx->size & ~FREE_MASK)
 	{
-		ptr_prev_head = (size_t *)((char *)ptr_prev_end -
-		(char)sizeof(size_t) - (*ptr_prev_end & FREE_MASK));
-		*ptr_end = ((*ptr_prev_end + *ptr_head) & FREE_MASK) +
-		(sizeof(size_t) * 2);
-		*ptr_prev_head = ((*ptr_prev_end + *ptr_head) & FREE_MASK) +
-		(sizeof(size_t) * 2);
-		*ptr_end += 0x1;
-		*ptr_prev_head += 0x1;
+		idx->next = chunk->next;
+		idx->size = idx->size + (chunk->size & FREE_MASK) + sizeof(t_chunk);
 	}
 }
 
 void					free(void *ptr)
 {
-	size_t				*ptr_head;
-	size_t				*ptr_end;
+	t_chunk				*chunk;
 
-	ptr_head = (size_t *)(((char *)ptr) - ((char)sizeof(size_t)));
-	*ptr_head += 0x1;
-	ptr_end = (size_t *)(((char *)ptr_head) +
-	((char)sizeof(size_t)) + (*ptr_head & FREE_MASK));
-	*ptr_end += 0x1;
-	if (ptr_issmall(ptr))
-		try_coalesce(ptr_head, ptr_end);
+	chunk = (t_chunk *)((char *)ptr - sizeof(t_chunk));
+	chunk->size += 0x1;
+	coalesce_next(chunk);
+	coalesce_prev(chunk);
 }
