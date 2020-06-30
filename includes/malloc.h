@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:05:38 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 08:11:03 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 14:55:47 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,17 @@ typedef struct			s_arena
 	struct s_page		*large;
 }						t_arena;
 
+typedef struct			s_chunk
+{
+	size_t				size;
+	struct s_chunk		*next;
+}						t_chunk;
+
 typedef struct			s_page
 {
 	size_t				size;
 	size_t				top_size;
-	void				*top;
+	struct s_chunk		*head;
 	struct s_page		*next;
 }						t_page;
 

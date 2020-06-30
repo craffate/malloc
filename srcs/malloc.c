@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:34:31 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 10:06:54 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 15:05:03 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ static t_page			*find_head(size_t size)
 static void				*shrink_chunk(size_t size, t_page *page)
 {
 	void				*ret;
+	t_chunk				chunk;
 
-	ret = ft_memcpy(page->top, &size, sizeof(size_t));
-	ft_memcpy((char *)page->top +
-	(char)sizeof(size_t) + size, &size, sizeof(size_t));
-	page->top = ((char *)page->top) + ((char)sizeof(size_t) * 2) + size;
-	page->top_size = page->top_size - (size + sizeof(size_t) * 2);
+	chunk.size = size;
+	chunk.next = NULL;
+	ret = ((char *)page + (page->size - page->top_size));
+	ft_memcpy(ret, &chunk, sizeof(t_chunk));
+	page->top_size = page->top_size - (size + sizeof(t_chunk));
 	return (ret);
 }
 
@@ -45,7 +46,7 @@ static t_page			*find_page(size_t size)
 	t_page				*ret;
 
 	ret = find_head(size);
-	while (ret && ret->top_size < (size + (sizeof(size_t) * 2)))
+	while (ret && ret->top_size < (size + sizeof(t_chunk)))
 		ret = ret->next;
 	return (ret);
 }
@@ -54,17 +55,16 @@ static t_page			*map_page(size_t size)
 {
 	t_page				*ret;
 
-	size += sizeof(size_t) * 2;
-	size *= size > (SMALL + sizeof(size_t) * 2) ? 1 : MAX_ALLOC;
-	size += sizeof(size_t);
+	size += sizeof(t_chunk);
+	size *= size > (SMALL + sizeof(t_chunk)) ? 1 : MAX_ALLOC;
 	size += sizeof(t_page);
 	size = ft_roundup(size, getpagesize());
 	if ((ret = (t_page *)mmap(0, size, PROT_READ | PROT_WRITE,
 	MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		ret = NULL;
 	ret->size = size;
-	ret->top_size = size - sizeof(t_page) - sizeof(size_t);
-	ret->top = ((char *)ret) + (char)sizeof(t_page) + (char)sizeof(size_t);
+	ret->top_size = size - sizeof(t_page);
+	ret->head = (void *)((char *)ret) + sizeof(t_page);
 	ret->next = NULL;
 	return (ret);
 }
