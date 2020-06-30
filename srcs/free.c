@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 14:03:00 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 17:41:43 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 17:45:45 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_arena					*g_arena;
 
 static void				coalesce_next(t_chunk *chunk)
 {
-	if (chunk->next && chunk->next->size & ~FREE_MASK)
+	if ((chunk->size & FREE_MASK) <= SMALL && chunk->next &&
+	chunk->next->size & ~FREE_MASK)
 	{
 		chunk->size = chunk->size + (chunk->next->size & FREE_MASK) +
 		sizeof(t_chunk);
