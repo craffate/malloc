@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 14:03:00 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 10:06:34 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 10:17:42 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,5 @@ void					free(void *ptr)
 	((char)sizeof(size_t)) + (*ptr_head & FREE_MASK));
 	*ptr_end += 0x1;
 	if (ptr_issmall(ptr))
-	{
-		ft_putstr("HELLO\n");
 		try_coalesce(ptr_head, ptr_end);
-	}
 }
