@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:34:31 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 15:47:38 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 15:53:16 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,15 @@ static void				*shrink_chunk(size_t size, t_page *page)
 {
 	void				*ret;
 	t_chunk				chunk;
+	t_chunk				*link;
 
 	chunk.size = size;
 	chunk.next = NULL;
+	link = page->head;
 	ret = ((char *)page + (page->size - page->top_size));
+	while (link->next)
+		link = link->next;
+	link->next = ret;
 	ft_memcpy(ret, &chunk, sizeof(t_chunk));
 	page->top_size = page->top_size - (size + sizeof(t_chunk));
 	return (ret);
