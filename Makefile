@@ -21,7 +21,7 @@ SRCS_PATH = srcs/
 LIBFT_PATH = libft/
 LIBFT_INCS_PATH = $(addprefix $(LIBFT_PATH), $(INCS_PATH))
 
-SRCS_FILES = malloc free debug
+SRCS_FILES = malloc free debug realloc
 
 SRCS = $(addsuffix .c, $(addprefix $(SRCS_PATH), $(SRCS_FILES)))
 OBJS = $(addsuffix .o, $(addprefix $(OBJS_PATH), $(SRCS_FILES)))
