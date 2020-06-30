@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:05:38 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/29 11:48:06 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 08:11:03 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 # define RED "\x1b[31m"
 # define GREEN "\x1b[32m"
+# define YELLOW "\x1b[33m"
 # define EOC "\x1b[0m"
 
 typedef struct			s_arena

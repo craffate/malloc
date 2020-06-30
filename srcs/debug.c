@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/29 12:04:45 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 08:11:09 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ static void				print_char(unsigned char c)
 
 	byte[1] = base[c % 16];
 	byte[0] = base[c / 16];
-	if (c && DEBUG_COLOR)
+	if ((c > 0x20 && c < 0x7F) && DEBUG_COLOR)
 		ft_putstr(RED);
+	else if (c && DEBUG_COLOR)
+		ft_putstr(YELLOW);
 	write(1, byte, 2);
 	ft_putstr(EOC);
 }
