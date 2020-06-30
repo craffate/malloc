@@ -6,12 +6,11 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:34:31 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/29 12:26:36 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 10:04:41 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include <stdio.h>
 
 t_arena					*g_arena;
 
