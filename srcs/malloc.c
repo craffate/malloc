@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:34:31 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 15:05:03 by craffate         ###   ########.fr       */
+/*   Updated: 2020/06/30 15:47:38 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,5 @@ void					*malloc(size_t size)
 	if (!(page = find_page(size)))
 		page = append_page(find_head(size), map_page(size));
 	ret = shrink_chunk(size, page);
-	return (ret + sizeof(size_t));
+	return (ret + sizeof(t_chunk));
 }
