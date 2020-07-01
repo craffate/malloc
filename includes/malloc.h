@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:05:38 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 19:41:03 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/01 19:31:28 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 
 # define MAX_ALLOC 100
 
-# define TINY 16
-# define SMALL 128
+# define TINY 32
+# define SMALL 1024
 
 # define DEBUG_COLOR 1
 
