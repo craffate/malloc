@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/07/01 08:52:53 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/01 14:06:03 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,26 +133,29 @@ void					show_alloc_mem_ex(void)
 {
 	t_page				*page_idx;
 
-	page_idx = g_arena->tiny;
-	while (page_idx)
+	if (g_arena)
 	{
-		dump_page(page_idx);
-		ft_putstr("\n\n");
-		page_idx = page_idx->next;
-	}
-	page_idx = g_arena->small;
-	while (page_idx)
-	{
-		dump_page(page_idx);
-		ft_putstr("\n\n");
-		page_idx = page_idx->next;
-	}
-	page_idx = g_arena->large;
-	while (page_idx)
-	{
-		dump_page(page_idx);
-		ft_putstr("\n\n");
-		page_idx = page_idx->next;
+		page_idx = g_arena->tiny;
+		while (page_idx)
+		{
+			dump_page(page_idx);
+			ft_putstr("\n\n");
+			page_idx = page_idx->next;
+		}
+		page_idx = g_arena->small;
+		while (page_idx)
+		{
+			dump_page(page_idx);
+			ft_putstr("\n\n");
+			page_idx = page_idx->next;
+		}
+		page_idx = g_arena->large;
+		while (page_idx)
+		{
+			dump_page(page_idx);
+			ft_putstr("\n\n");
+			page_idx = page_idx->next;
+		}
 	}
 }
 
@@ -160,25 +163,28 @@ void					show_alloc_mem(void)
 {
 	t_page				*page_idx;
 
-	page_idx = g_arena->tiny;
-	while (page_idx)
+	if (g_arena)
 	{
-		print_page(page_idx);
-		ft_putstr("\n\n");
-		page_idx = page_idx->next;
-	}
-	page_idx = g_arena->small;
-	while (page_idx)
-	{
-		print_page(page_idx);
-		ft_putstr("\n\n");
-		page_idx = page_idx->next;
-	}
-	page_idx = g_arena->large;
-	while (page_idx)
-	{
-		print_page(page_idx);
-		ft_putstr("\n\n");
-		page_idx = page_idx->next;
+		page_idx = g_arena->tiny;
+		while (page_idx)
+		{
+			print_page(page_idx);
+			ft_putstr("\n\n");
+			page_idx = page_idx->next;
+		}
+		page_idx = g_arena->small;
+		while (page_idx)
+		{
+			print_page(page_idx);
+			ft_putstr("\n\n");
+			page_idx = page_idx->next;
+		}
+		page_idx = g_arena->large;
+		while (page_idx)
+		{
+			print_page(page_idx);
+			ft_putstr("\n\n");
+			page_idx = page_idx->next;
+		}
 	}
 }
