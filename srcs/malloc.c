@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:34:31 by craffate          #+#    #+#             */
-/*   Updated: 2020/07/01 10:59:32 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/01 18:39:48 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,32 @@ static t_page			*append_page(t_page *p_head, t_page *page)
 	return (ret);
 }
 
+static void				*find_free(size_t size)
+{
+	void				*ret;
+	t_page				*page_idx;
+	t_chunk				*chunk_idx;
+
+	ret = NULL;
+	page_idx = find_head(size);
+	while (page_idx && !ret)
+	{
+		chunk_idx = page_idx->head;
+		while (chunk_idx)
+		{
+			if ((chunk_idx->size & FREE_MASK) >= size &&
+			(chunk_idx->size & ~FREE_MASK))
+			{
+				ret = (void *)chunk_idx;
+				((t_chunk *)ret)->size -= 0x1;
+			}
+			chunk_idx = chunk_idx->next;
+		}
+		page_idx = page_idx->next;
+	}
+	return (ret);
+}
+
 void					*malloc(size_t size)
 {
 	void				*ret;
@@ -119,8 +145,11 @@ void					*malloc(size_t size)
 	size = ft_roundup(size, 16);
 	if (!size)
 		return (NULL);
-	if (!(page = find_page(size)))
-		page = append_page(find_head(size), map_page(size));
-	ret = shrink_chunk(size, page);
+	if (!(ret = find_free(size)))
+	{
+		if (!(page = find_page(size)))
+			page = append_page(find_head(size), map_page(size));
+		ret = shrink_chunk(size, page);
+	}
 	return (ret + sizeof(t_chunk));
 }
