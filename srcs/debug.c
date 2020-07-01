@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 15:59:48 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/01 08:52:53 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void				print_chunk(t_chunk *chunk)
 {
 	if (chunk->size & ~FREE_MASK && DEBUG_COLOR)
 		ft_putstr(GREEN);
-	print_range(chunk, ((char *)chunk + (chunk->size & FREE_MASK)));
+	print_range(chunk, ((char *)chunk + (chunk->size & FREE_MASK) + sizeof(t_chunk)));
 	ft_putstr(" : ");
 	ft_putnbr(chunk->size & FREE_MASK);
 	ft_putstr(" bytes");
