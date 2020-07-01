@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:34:31 by craffate          #+#    #+#             */
-/*   Updated: 2020/06/30 15:53:16 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/01 10:59:32 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static t_page			*find_page(size_t size)
 	t_page				*ret;
 
 	ret = find_head(size);
+	if ((ret = find_head(size)) == g_arena->large)
+		return (NULL);
 	while (ret && ret->top_size < (size + sizeof(t_chunk)))
 		ret = ret->next;
 	return (ret);
@@ -115,6 +117,8 @@ void					*malloc(size_t size)
 	if (!g_arena)
 		g_arena = map_arena();
 	size = ft_roundup(size, 16);
+	if (!size)
+		return (NULL);
 	if (!(page = find_page(size)))
 		page = append_page(find_head(size), map_page(size));
 	ret = shrink_chunk(size, page);
