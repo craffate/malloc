@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/07/14 07:14:18 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/22 18:02:57 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static void				print_chunk(t_chunk *chunk)
 {
 	if (chunk->size & ~FREE_MASK && DEBUG_COLOR)
 		ft_putstr(GREEN);
-	print_range(chunk, ((char *)chunk + (chunk->size & FREE_MASK) + sizeof(t_chunk)));
+	print_range(chunk,
+	((char *)chunk + (chunk->size & FREE_MASK) + sizeof(t_chunk)));
 	ft_putstr(" : ");
 	ft_putnbr(chunk->size & FREE_MASK);
 	ft_putstr(" bytes");
@@ -84,6 +85,7 @@ static void				print_page(t_page *page)
 			chunk = chunk->next;
 		}
 	}
+	ft_putstr("\n\n");
 }
 
 static void				print_char(unsigned char c)
@@ -126,10 +128,10 @@ static void				dump_page(t_page *page)
 		}
 		ft_putstr(" |");
 		ft_putstr(s);
-		ft_putchar('|');
-		ft_putchar('\n');
+		ft_putendl("|");
 		page_idx += 0x10;
 	}
+	ft_putstr("\n\n");
 }
 
 void					show_alloc_mem_ex(void)
@@ -142,21 +144,18 @@ void					show_alloc_mem_ex(void)
 		while (page_idx)
 		{
 			dump_page(page_idx);
-			ft_putstr("\n\n");
 			page_idx = page_idx->next;
 		}
 		page_idx = g_arena->small;
 		while (page_idx)
 		{
 			dump_page(page_idx);
-			ft_putstr("\n\n");
 			page_idx = page_idx->next;
 		}
 		page_idx = g_arena->large;
 		while (page_idx)
 		{
 			dump_page(page_idx);
-			ft_putstr("\n\n");
 			page_idx = page_idx->next;
 		}
 	}
@@ -172,21 +171,18 @@ void					show_alloc_mem(void)
 		while (page_idx)
 		{
 			print_page(page_idx);
-			ft_putstr("\n\n");
 			page_idx = page_idx->next;
 		}
 		page_idx = g_arena->small;
 		while (page_idx)
 		{
 			print_page(page_idx);
-			ft_putstr("\n\n");
 			page_idx = page_idx->next;
 		}
 		page_idx = g_arena->large;
 		while (page_idx)
 		{
 			print_page(page_idx);
-			ft_putstr("\n\n");
 			page_idx = page_idx->next;
 		}
 	}

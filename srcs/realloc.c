@@ -6,12 +6,11 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 11:35:42 by craffate          #+#    #+#             */
-/*   Updated: 2020/07/22 17:37:58 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/22 17:52:26 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
 
 static void				copy_data(char *dst, char *src)
 {
