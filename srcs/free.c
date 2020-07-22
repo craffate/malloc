@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 14:03:00 by craffate          #+#    #+#             */
-/*   Updated: 2020/07/01 08:46:38 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/22 17:38:04 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,38 +41,6 @@ static void				coalesce_prev(t_chunk *chunk)
 		idx->next = chunk->next;
 		idx->size = idx->size + (chunk->size & FREE_MASK) + sizeof(t_chunk);
 	}
-}
-
-static int				check_range(void *ptr)
-{
-	int					ret;
-	uintptr_t			ptr_idx;
-	t_page				*idx;
-
-	ret = 0;
-	ptr_idx = (uintptr_t)ptr;
-	idx = g_arena->tiny;
-	while (idx && !ret)
-	{
-		if ((uintptr_t)idx < ptr_idx && (uintptr_t)((char *)idx + idx->size) > ptr_idx)
-			ret = 1;
-		idx = idx->next;
-	}
-	idx = g_arena->small;
-	while (idx && !ret)
-	{
-		if ((uintptr_t)idx < ptr_idx && (uintptr_t)((char *)idx + idx->size) > ptr_idx)
-			ret = 1;
-		idx = idx->next;
-	}
-	idx = g_arena->large;
-	while (idx && !ret)
-	{
-		if ((uintptr_t)idx < ptr_idx && (uintptr_t)((char *)idx + idx->size) > ptr_idx)
-			ret = 1;
-		idx = idx->next;
-	}
-	return (ret);
 }
 
 void					free(void *ptr)
