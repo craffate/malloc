@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:05:38 by craffate          #+#    #+#             */
-/*   Updated: 2020/07/22 18:06:52 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/23 07:50:33 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,13 @@ void					show_alloc_mem(void);
 void					show_alloc_mem_ex(void);
 void					*calloc(size_t count, size_t size);
 int						check_range(void *ptr);
+int						find_range(t_page *ar_head, uintptr_t ptr);
 void					print_addr(void *ptr);
 void					print_range(void *p, void *p2);
 void					print_chunk(t_chunk *chunk);
 void					print_page(t_page *page);
+void					*find_free(size_t size);
+t_page					*find_page(size_t size);
+t_page					*find_head(size_t size);
 
 #endif

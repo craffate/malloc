@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 05:58:13 by craffate          #+#    #+#             */
-/*   Updated: 2020/07/22 18:09:43 by craffate         ###   ########.fr       */
+/*   Updated: 2020/07/23 07:23:54 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@ static void				print_char(unsigned char c)
 		ft_putstr(YELLOW);
 	write(1, byte, 2);
 	ft_putstr(EOC);
+}
+
+static char				*dump_page_sec(char *s, char *page_idx)
+{
+	ft_putstr(" |");
+	ft_putstr(s);
+	ft_putendl("|");
+	return (page_idx + 0x10);
 }
 
 static void				dump_page(t_page *page)
@@ -52,10 +60,7 @@ static void				dump_page(t_page *page)
 			else
 				s[idx] = '.';
 		}
-		ft_putstr(" |");
-		ft_putstr(s);
-		ft_putendl("|");
-		page_idx += 0x10;
+		page_idx = dump_page_sec(s, page_idx);
 	}
 	ft_putstr("\n\n");
 }
